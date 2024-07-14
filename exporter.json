@@ -1,0 +1,17 @@
+{
+    "id": "impactcommerce.exporter-css",
+    "name": "IMPACT CSS Exporter",
+    "description": "Export your design system data into CSS",
+    "author": "Nikolaj Schouboe Lovring",
+    "organization": "IMPACT",
+    "homepage": "https://impactcommerce.com",
+    "version": "1.0.0",
+    "usesBrands": true,
+    "usesThemes": true,
+    "executable": "/dist/build.js",
+    "engine": "latest",
+    "tags": [
+        "css",
+        "exporter"
+    ]
+}
