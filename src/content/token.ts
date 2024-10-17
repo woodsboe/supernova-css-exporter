@@ -137,6 +137,7 @@ export function typographyTokenToCSS(token: TypographyToken, mappedTokens: Map<s
   // First creating the name of the token, using helper function which turns any token name / path into a valid variable name
   const name = tokenVariableName(token, tokenGroups, prefix)
 
+  console.log(JSON.stringify(token.value), JSON.stringify(mappedTokens));
   // Then creating the value of the token, using another helper function
   const value = CSSHelper.typographyTokenValueToCSS(token.value, mappedTokens, {
     allowReferences: false,

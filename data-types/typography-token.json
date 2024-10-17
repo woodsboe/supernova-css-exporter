@@ -1,0 +1,288 @@
+[{
+    "id": "bf23fd4f-9626-4ae3-8e6e-1482372fdad9",
+    "idInVersion": "13301322",
+    "brandId": "171d9410-dd0e-42f5-a148-7cc5f4420a2c",
+    "themeId": null,
+    "designSystemVersionId": "275630",
+    "name": "D1",
+    "description": "",
+    "tokenType": "Typography",
+    "origin": {
+        "id": "5573d3a32f649fb519b669753a5ac44e6d529925",
+        "name": "Display – Lg/D1",
+        "sourceId": "19942692-83ad-489e-a9eb-c8f6d6a2d2dd",
+        "sourceType": "Figma",
+        "referenceOriginId": null,
+        "referencePersistentId": null,
+        "referenceResolutionFailed": null,
+        "referenceOriginRemote": null,
+        "referenceOriginName": null,
+        "key": null
+    },
+    "parentGroupId": "fe229938-b652-4209-bddb-0122f499566c",
+    "createdAt": null,
+    "updatedAt": "2024-10-09T08:43:52.512Z",
+    "sortOrder": -1,
+    "properties": [
+        {
+            "idInVersion": "366499",
+            "id": "d223735e-1717-4388-aeb1-859c1a730caf",
+            "designSystemVersionId": "275630",
+            "name": "Collection",
+            "codeName": "Collection",
+            "description": "",
+            "propertyType": "Select",
+            "targetElementType": "Token",
+            "linkElementType": null,
+            "options": [
+                {
+                    "id": "85d64f5d-c955-44e8-bb1d-55f37b344376",
+                    "name": "🌈 Base colors",
+                    "backgroundColor": "#F5F2FD"
+                },
+                {
+                    "id": "7c3b609b-9519-45c3-9f4d-ddbadf3e4aeb",
+                    "name": "🌈 Semantic colors",
+                    "backgroundColor": "#D5FBFE"
+                },
+                {
+                    "id": "1c2287cf-5aba-4524-b1c3-25eea1c9c2e7",
+                    "name": "💯 Number tokens",
+                    "backgroundColor": "#FFF2E1"
+                },
+                {
+                    "id": "96998ff9-e8e2-4c69-b850-9707b7eead52",
+                    "name": "Components",
+                    "backgroundColor": "#EDF5FF"
+                },
+                {
+                    "id": "c59d8d89-0e58-40bc-897c-91f439dde1f9",
+                    "name": "Typography",
+                    "backgroundColor": "#FCF0FF"
+                },
+                {
+                    "id": "efb97dbd-0e7e-49ad-a6b9-75760d6af3a5",
+                    "name": "Semantic tokens",
+                    "backgroundColor": "#EBFEF6"
+                }
+            ]
+        },
+        {
+            "idInVersion": "366493",
+            "id": "45b6132b-2d01-4dae-8fa3-f67862ab62df",
+            "designSystemVersionId": "275630",
+            "name": "Token set",
+            "codeName": "tokenSet",
+            "description": "This token is part of a set",
+            "propertyType": "Select",
+            "targetElementType": "Token",
+            "linkElementType": null,
+            "options": [
+                {
+                    "id": "token-set-core",
+                    "name": "Core",
+                    "backgroundColor": "#F5F2FD"
+                },
+                {
+                    "id": "token-set-semantic",
+                    "name": "Semantic",
+                    "backgroundColor": "#FEF0F5"
+                },
+                {
+                    "id": "token-set-component",
+                    "name": "Component",
+                    "backgroundColor": "#CDFDFD"
+                }
+            ]
+        }
+    ],
+    "propertyValues": {},
+    "value": {
+        "fontFamily": {
+            "text": "Geogrotesque",
+            "referencedTokenId": null
+        },
+        "fontWeight": {
+            "text": "500",
+            "referencedTokenId": null
+        },
+        "fontSize": {
+            "unit": "Pixels",
+            "measure": 56,
+            "referencedTokenId": null
+        },
+        "textDecoration": {
+            "value": "None",
+            "referencedTokenId": null
+        },
+        "textCase": {
+            "value": "Original",
+            "referencedTokenId": null
+        },
+        "letterSpacing": {
+            "unit": "Pixels",
+            "measure": 0,
+            "referencedTokenId": null
+        },
+        "lineHeight": {
+            "unit": "Percent",
+            "measure": 100,
+            "referencedTokenId": null
+        },
+        "paragraphIndent": {
+            "unit": "Pixels",
+            "measure": 0,
+            "referencedTokenId": null
+        },
+        "paragraphSpacing": {
+            "unit": "Pixels",
+            "measure": 0,
+            "referencedTokenId": null
+        },
+        "referencedTokenId": null
+    }
+},
+{
+    "id": "4c7a090e-018e-4354-8e4b-9d5d3ef3ee42",
+    "idInVersion": "13301323",
+    "brandId": "171d9410-dd0e-42f5-a148-7cc5f4420a2c",
+    "themeId": null,
+    "designSystemVersionId": "275630",
+    "name": "D2",
+    "description": "",
+    "tokenType": "Typography",
+    "origin": {
+        "id": "74d193f1ab29fb56b7e1829d33a864cf82f685f6",
+        "name": "Display – Lg/D2",
+        "sourceId": "19942692-83ad-489e-a9eb-c8f6d6a2d2dd",
+        "sourceType": "Figma",
+        "referenceOriginId": null,
+        "referencePersistentId": null,
+        "referenceResolutionFailed": null,
+        "referenceOriginRemote": null,
+        "referenceOriginName": null,
+        "key": null
+    },
+    "parentGroupId": "fe229938-b652-4209-bddb-0122f499566c",
+    "createdAt": null,
+    "updatedAt": "2024-10-09T08:43:52.512Z",
+    "sortOrder": -1,
+    "properties": [
+        {
+            "idInVersion": "366499",
+            "id": "d223735e-1717-4388-aeb1-859c1a730caf",
+            "designSystemVersionId": "275630",
+            "name": "Collection",
+            "codeName": "Collection",
+            "description": "",
+            "propertyType": "Select",
+            "targetElementType": "Token",
+            "linkElementType": null,
+            "options": [
+                {
+                    "id": "85d64f5d-c955-44e8-bb1d-55f37b344376",
+                    "name": "🌈 Base colors",
+                    "backgroundColor": "#F5F2FD"
+                },
+                {
+                    "id": "7c3b609b-9519-45c3-9f4d-ddbadf3e4aeb",
+                    "name": "🌈 Semantic colors",
+                    "backgroundColor": "#D5FBFE"
+                },
+                {
+                    "id": "1c2287cf-5aba-4524-b1c3-25eea1c9c2e7",
+                    "name": "💯 Number tokens",
+                    "backgroundColor": "#FFF2E1"
+                },
+                {
+                    "id": "96998ff9-e8e2-4c69-b850-9707b7eead52",
+                    "name": "Components",
+                    "backgroundColor": "#EDF5FF"
+                },
+                {
+                    "id": "c59d8d89-0e58-40bc-897c-91f439dde1f9",
+                    "name": "Typography",
+                    "backgroundColor": "#FCF0FF"
+                },
+                {
+                    "id": "efb97dbd-0e7e-49ad-a6b9-75760d6af3a5",
+                    "name": "Semantic tokens",
+                    "backgroundColor": "#EBFEF6"
+                }
+            ]
+        },
+        {
+            "idInVersion": "366493",
+            "id": "45b6132b-2d01-4dae-8fa3-f67862ab62df",
+            "designSystemVersionId": "275630",
+            "name": "Token set",
+            "codeName": "tokenSet",
+            "description": "This token is part of a set",
+            "propertyType": "Select",
+            "targetElementType": "Token",
+            "linkElementType": null,
+            "options": [
+                {
+                    "id": "token-set-core",
+                    "name": "Core",
+                    "backgroundColor": "#F5F2FD"
+                },
+                {
+                    "id": "token-set-semantic",
+                    "name": "Semantic",
+                    "backgroundColor": "#FEF0F5"
+                },
+                {
+                    "id": "token-set-component",
+                    "name": "Component",
+                    "backgroundColor": "#CDFDFD"
+                }
+            ]
+        }
+    ],
+    "propertyValues": {},
+    "value": {
+        "fontFamily": {
+            "text": "Geogrotesque",
+            "referencedTokenId": null
+        },
+        "fontWeight": {
+            "text": "500",
+            "referencedTokenId": null
+        },
+        "fontSize": {
+            "unit": "Pixels",
+            "measure": 48,
+            "referencedTokenId": null
+        },
+        "textDecoration": {
+            "value": "None",
+            "referencedTokenId": null
+        },
+        "textCase": {
+            "value": "Original",
+            "referencedTokenId": null
+        },
+        "letterSpacing": {
+            "unit": "Pixels",
+            "measure": 0,
+            "referencedTokenId": null
+        },
+        "lineHeight": {
+            "unit": "Percent",
+            "measure": 100,
+            "referencedTokenId": null
+        },
+        "paragraphIndent": {
+            "unit": "Pixels",
+            "measure": 0,
+            "referencedTokenId": null
+        },
+        "paragraphSpacing": {
+            "unit": "Pixels",
+            "measure": 0,
+            "referencedTokenId": null
+        },
+        "referencedTokenId": null
+    }
+}]

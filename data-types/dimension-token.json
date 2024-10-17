@@ -1,0 +1,107 @@
+{
+    "id": "48edb839-e9c4-4730-88e4-1d60675c66e1",
+    "idInVersion": "13301998",
+    "brandId": "171d9410-dd0e-42f5-a148-7cc5f4420a2c",
+    "themeId": null,
+    "designSystemVersionId": "275630",
+    "name": "none",
+    "description": "",
+    "tokenType": "Dimension",
+    "origin": {
+        "id": "VariableID:4126:5411",
+        "name": "Spacing/none",
+        "sourceId": "50df6b5a-1d30-422b-94c6-f457141bbf6f",
+        "sourceType": "FigmaVariablesPlugin",
+        "referenceOriginId": null,
+        "referencePersistentId": null,
+        "referenceResolutionFailed": null,
+        "referenceOriginRemote": null,
+        "referenceOriginName": null,
+        "key": "1a0746abaa952525f251f2e245afa1a2a7d1aee5"
+    },
+    "parentGroupId": "5bf0fabc-a469-4f3a-a7e0-dfc789261c19",
+    "createdAt": null,
+    "updatedAt": "2024-10-16T14:16:20.802Z",
+    "sortOrder": -1,
+    "properties": [
+        {
+            "idInVersion": "366499",
+            "id": "d223735e-1717-4388-aeb1-859c1a730caf",
+            "designSystemVersionId": "275630",
+            "name": "Collection",
+            "codeName": "Collection",
+            "description": "",
+            "propertyType": "Select",
+            "targetElementType": "Token",
+            "linkElementType": null,
+            "options": [
+                {
+                    "id": "85d64f5d-c955-44e8-bb1d-55f37b344376",
+                    "name": "🌈 Base colors",
+                    "backgroundColor": "#F5F2FD"
+                },
+                {
+                    "id": "7c3b609b-9519-45c3-9f4d-ddbadf3e4aeb",
+                    "name": "🌈 Semantic colors",
+                    "backgroundColor": "#D5FBFE"
+                },
+                {
+                    "id": "1c2287cf-5aba-4524-b1c3-25eea1c9c2e7",
+                    "name": "💯 Number tokens",
+                    "backgroundColor": "#FFF2E1"
+                },
+                {
+                    "id": "96998ff9-e8e2-4c69-b850-9707b7eead52",
+                    "name": "Components",
+                    "backgroundColor": "#EDF5FF"
+                },
+                {
+                    "id": "c59d8d89-0e58-40bc-897c-91f439dde1f9",
+                    "name": "Typography",
+                    "backgroundColor": "#FCF0FF"
+                },
+                {
+                    "id": "efb97dbd-0e7e-49ad-a6b9-75760d6af3a5",
+                    "name": "Semantic tokens",
+                    "backgroundColor": "#EBFEF6"
+                }
+            ]
+        },
+        {
+            "idInVersion": "366493",
+            "id": "45b6132b-2d01-4dae-8fa3-f67862ab62df",
+            "designSystemVersionId": "275630",
+            "name": "Token set",
+            "codeName": "tokenSet",
+            "description": "This token is part of a set",
+            "propertyType": "Select",
+            "targetElementType": "Token",
+            "linkElementType": null,
+            "options": [
+                {
+                    "id": "token-set-core",
+                    "name": "Core",
+                    "backgroundColor": "#F5F2FD"
+                },
+                {
+                    "id": "token-set-semantic",
+                    "name": "Semantic",
+                    "backgroundColor": "#FEF0F5"
+                },
+                {
+                    "id": "token-set-component",
+                    "name": "Component",
+                    "backgroundColor": "#CDFDFD"
+                }
+            ]
+        }
+    ],
+    "propertyValues": {
+        "Collection": "1c2287cf-5aba-4524-b1c3-25eea1c9c2e7"
+    },
+    "value": {
+        "unit": "Pixels",
+        "measure": 0,
+        "referencedTokenId": null
+    }
+}

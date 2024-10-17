@@ -1,0 +1,44 @@
+{
+    "fontFamily": {
+        "text": "Geogrotesque",
+        "referencedTokenId": null
+    },
+    "fontWeight": {
+        "text": "500",
+        "referencedTokenId": null
+    },
+    "fontSize": {
+        "unit": "Pixels",
+        "measure": 56,
+        "referencedTokenId": null
+    },
+    "textDecoration": {
+        "value": "None",
+        "referencedTokenId": null
+    },
+    "textCase": {
+        "value": "Original",
+        "referencedTokenId": null
+    },
+    "letterSpacing": {
+        "unit": "Pixels",
+        "measure": 0,
+        "referencedTokenId": null
+    },
+    "lineHeight": {
+        "unit": "Percent",
+        "measure": 100,
+        "referencedTokenId": null
+    },
+    "paragraphIndent": {
+        "unit": "Pixels",
+        "measure": 0,
+        "referencedTokenId": null
+    },
+    "paragraphSpacing": {
+        "unit": "Pixels",
+        "measure": 0,
+        "referencedTokenId": null
+    },
+    "referencedTokenId": null
+}

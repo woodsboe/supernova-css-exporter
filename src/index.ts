@@ -16,6 +16,7 @@ import {
   shadowTokenToCSS, typographyTokenToCSS
 } from "./content/token"
 import {isTokenComponent, isTokenSemantic} from "./utils/utils"
+import { figmaFluidHeadlineIdentifier, figmaFluidTypographyScreenMaxTokenName, figmaFluidTypographyScreenMinTokenName } from "./configs/figma-colletion-types"
 
 /**
  * Export entrypoint.
@@ -99,10 +100,44 @@ Pulsar.export(async (sdk: Supernova, context: PulsarContext): Promise<Array<AnyO
     .map((token) => blurTokenToCSS(token as BlurToken, mappedTokens, tokenGroups))
     .join("\n")
 
-  const typographyCss = tokens
-    .filter((t) => t.tokenType === TokenType.typography)
-    .map((token) => typographyTokenToCSS(token as TypographyToken, mappedTokens, tokenGroups))
-    .join("\n")
+  console.log("Fluid Screen Size Max");
+  const typographyFluidScreenMax = tokens
+  .filter((t) => t.tokenType === TokenType.dimension && t.origin?.name?.includes(figmaFluidTypographyScreenMaxTokenName))
+  .map((token: DimensionToken) => token.value.measure)?.[0]
+  console.log(typographyFluidScreenMax);
+
+  console.log("Fluid Screen Size Min");
+  const typographyFluidScreenMin = tokens
+  .filter((t) => t.tokenType === TokenType.dimension && t.origin?.name?.includes(figmaFluidTypographyScreenMinTokenName))
+  .map((token: DimensionToken) => token.value.measure)?.[0]
+  console.log(typographyFluidScreenMin);
+
+  console.log("Typography Fluid Size");
+  const typographyFluidSizes: Array<{ [key: string]: { max?: number, min?: number } }> = [];
+  let fluidSize = {}
+  tokens
+    .filter((t) => t.tokenType === TokenType.dimension && t.origin?.name?.includes(figmaFluidHeadlineIdentifier))
+    .forEach((token: DimensionToken) => {
+      const parentGroupName = (tokenGroups.find((group) => group.id === token.parentGroupId)?.name)?.replaceAll(" ", "-").toLocaleLowerCase();
+      if (!parentGroupName) {
+        return;
+      }
+
+      if (token.name === 'Max Size') {
+        fluidSize[parentGroupName] = { max: token.value.measure };
+      }
+      if (token.name === 'Min Size') {
+        fluidSize[parentGroupName] = { ...fluidSize[parentGroupName], min: token.value.measure };
+        typographyFluidSizes.push(fluidSize);
+        fluidSize = {};
+      }
+    })
+  console.log(typographyFluidSizes);
+  //console.log("Typography CSS");
+  //const typographyCss = tokens
+  //  .filter((t) => t.tokenType === TokenType.typography)
+  //  .map((token) => /*typographyTokenToCSS(token as TypographyToken, mappedTokens, tokenGroups)*/ console.log(JSON.stringify(token)))
+  //  .join("\n")
 
   // Create semantic CSS file content
   if (exportConfiguration.generateDisclaimer) {
@@ -122,7 +157,7 @@ ${semanticBlurCss}
 
   componentTokensContent += `:root {\n${componentColorCss}\n${componentDimensionsCss}\n}`
 
-  typographyTokensContent += `:root {\n${typographyCss}\n}`
+  //typographyTokensContent += `:root {\n${typographyCss}\n}`
 
   // Create output file and return it
   return [
@@ -136,11 +171,11 @@ ${semanticBlurCss}
       fileName: "components.css",
       content: componentTokensContent,
     }),
-    FileHelper.createTextFile({
-      relativePath: "./",
-      fileName: "typography.css",
-      content: typographyTokensContent,
-    }),
+    //FileHelper.createTextFile({
+    //  relativePath: "./",
+    //  fileName: "typography.css",
+    //  content: typographyTokensContent,
+    //}),
   ]
 })
 
