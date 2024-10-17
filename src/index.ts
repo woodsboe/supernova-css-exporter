@@ -10,6 +10,7 @@ import {
   ShadowToken,
   Supernova,
   TokenType,
+  TypographyToken,
 } from "@supernovaio/sdk-exporters";
 import { ExporterConfiguration } from "../config";
 import {
@@ -19,6 +20,7 @@ import {
   gradientTokenToCSS,
   shadowTokenToCSS,
   typographyFluidToCss,
+  typographyTokenToCSS,
 } from "./content/token";
 import { isTokenComponent, isTokenSemantic } from "./utils/utils";
 import figmaConfig from "./configs/figma.config";
@@ -209,6 +211,35 @@ Pulsar.export(
       )
       .join("\n");
 
+    // Filter typography tokens
+    console.log("Typography Tokens");
+    const typographyTokens = tokens
+      .filter(
+        (t) =>
+          t.tokenType === TokenType.typography &&
+          !t.origin?.name?.includes("Display"),
+      )
+      .map((token) =>
+        typographyTokenToCSS(
+          token as TypographyToken,
+          mappedTokens,
+          tokenGroups,
+          "typography",
+        ),
+      )
+      .join("\n");
+    console.log(typographyTokens);
+
+    console.log("Typography Tokens");
+    const typographyTokensObject = tokens
+      .filter(
+        (t) =>
+          t.tokenType === TokenType.typography &&
+          !t.origin?.name?.includes("Display"),
+      )
+      .map((token) => JSON.stringify(token))
+      .join(",");
+    console.log(typographyTokensObject);
     //console.log("Typography CSS");
     //const typographyCss = tokens
     //  .filter((t) => t.tokenType === TokenType.typography)
@@ -252,6 +283,17 @@ Pulsar.export(
         fileName: "typography.css",
         content: fluidHeadingContent,
       }),
+
+      FileHelper.createTextFile({
+        relativePath: "./",
+        fileName: "typographyTokens.json",
+        content: `[${typographyTokensObject}]`,
+      }),
+      /*FileHelper.createTextFile({
+        relativePath: "./",
+        fileName: "tokenGroups.json",
+        content: JSON.stringify(tokenGroups),
+      }),*/
     ];
   },
 );

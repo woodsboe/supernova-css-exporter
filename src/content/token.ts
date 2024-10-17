@@ -16,6 +16,7 @@ import {
 } from "@supernovaio/sdk-exporters";
 import { generateCssClapOutput } from "../utils/utils";
 import figmaConfig from "../configs/figma.config";
+import outputConfig from "../configs/output.config";
 
 /**
  * Convert a color token to CSS custom property.
@@ -175,18 +176,18 @@ export function typographyTokenToCSS(
   // First creating the name of the token, using helper function which turns any token name / path into a valid variable name
   const name = tokenVariableName(token, tokenGroups, prefix);
 
-  console.log(JSON.stringify(token.value), JSON.stringify(mappedTokens));
   // Then creating the value of the token, using another helper function
-  const value = CSSHelper.typographyTokenValueToCSS(token.value, mappedTokens, {
+  /*const value = CSSHelper.typographyTokenValueToCSS(token.value, mappedTokens, {
     allowReferences: false,
     decimals: 3,
     colorFormat: ColorFormat.smartHashHex,
     tokenToVariableRef: (t) => {
       return `var(--${tokenVariableName(t, tokenGroups)})`;
     },
-  });
+  });*/
+  const value = "";
 
-  return `  --${name}: ${value};`;
+  return `--${name}: ${value};`;
 }
 
 export function typographyFluidToCss(
@@ -203,7 +204,7 @@ export function typographyFluidToCss(
     maxFontSize: fluidSize[cssVariableName].max!,
   });
 
-  return `${figmaConfig.fluid.headlineCssVarFormat.replace(
+  return `${outputConfig.formatting.headlineCssVarFormat.replace(
     "#NAME#",
     cssVariableName,
   )}: ${clampValue};`;
