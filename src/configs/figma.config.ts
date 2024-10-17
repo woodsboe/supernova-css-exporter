@@ -16,6 +16,7 @@ const typographyScreenMinTokenName = "Fluid/Screen Min";
 const headlineIdentifier = "Heading";
 
 // CSS variable format for fluid typography.
+//Todo: Move this to an output config file
 const headlineCssVarFormat = "--typography-#NAME#-size-fluid";
 
 const figmaConfig = {
