@@ -15,15 +15,10 @@ const typographyScreenMinTokenName = "Fluid/Screen Min";
 // Variable used to identify heading variables in Figma.
 const headlineIdentifier = "Heading";
 
-// CSS variable format for fluid typography.
-//Todo: Move this to an output config file
-const headlineCssVarFormat = "--typography-#NAME#-size-fluid";
-
 const figmaConfig = {
   semanticCollectionTypes,
   componentCollectionTypes,
   fluid: {
-    headlineCssVarFormat,
     headlineIdentifier,
     typographyScreenMaxTokenName,
     typographyScreenMinTokenName,
