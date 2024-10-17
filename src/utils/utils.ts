@@ -1,5 +1,5 @@
 import {ElementProperty, ElementPropertyOption, Token} from "@supernovaio/sdk-exporters";
-import {figmaComponentCollectionTypes, figmaSemanticCollectionTypes} from "../configs/figma-colletion-types";
+import figmaConfig from "../configs/figma.config";
 
 /**
  * Get the collection option from the collection object.
@@ -41,7 +41,7 @@ function isCollectionSemantic(collection: string | boolean | number, properties:
   }
 
   // Check if the collection name matches one of the semantic collection types from figma.
-  return figmaSemanticCollectionTypes.includes(collectionOption.name);
+  return figmaConfig.semanticCollectionTypes.includes(collectionOption.name);
 }
 
 function isCollectionComponent(collection: string | boolean | number, properties: ElementProperty[]): boolean {
@@ -60,7 +60,7 @@ function isCollectionComponent(collection: string | boolean | number, properties
   }
 
   // Check if the collection name matches one of the component collection types from figma.
-  return figmaComponentCollectionTypes.includes(collectionOption.name);
+  return figmaConfig.componentCollectionTypes.includes(collectionOption.name);
 }
 
 /**
@@ -95,4 +95,25 @@ export function isTokenComponent(token: Token): boolean {
   }
 
   return false;
+}
+
+export function generateCssClapOutput(
+  {
+    minScreenWidth = 450,
+    maxScreenWidth = 1920,
+    minFontSize,
+    maxFontSize,
+    rootFontSize = 16
+  }: GenerateFluidFontSizeArgs
+): string {
+  const minVWRem = minScreenWidth / rootFontSize;
+  const maxVWRem = maxScreenWidth / rootFontSize;
+
+  const minFontRem = minFontSize / rootFontSize;
+  const maxFontRem = maxFontSize / rootFontSize;
+
+  const slope = (maxFontRem - minFontRem) / (maxVWRem - minVWRem);
+  const intercept = -minVWRem * slope + minFontRem;
+
+  return `clamp(${minFontRem}rem, ${intercept}rem + ${slope * 100}vw, ${maxFontRem}rem)`;
 }

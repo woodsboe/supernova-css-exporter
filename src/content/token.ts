@@ -1,4 +1,9 @@
-import {NamingHelper, CSSHelper, ColorFormat, StringCase} from "@supernovaio/export-helpers"
+import {
+  NamingHelper,
+  CSSHelper,
+  ColorFormat,
+  StringCase,
+} from "@supernovaio/export-helpers";
 import {
   BlurToken,
   ColorToken,
@@ -6,8 +11,11 @@ import {
   GradientToken,
   ShadowToken,
   Token,
-  TokenGroup, TypographyToken
-} from "@supernovaio/sdk-exporters"
+  TokenGroup,
+  TypographyToken,
+} from "@supernovaio/sdk-exporters";
+import { generateCssClapOutput } from "../utils/utils";
+import figmaConfig from "../configs/figma.config";
 
 /**
  * Convert a color token to CSS custom property.
@@ -16,9 +24,14 @@ import {
  * @param tokenGroups
  * @param prefix
  */
-export function colorTokenToCSS(token: ColorToken, mappedTokens: Map<string, Token>, tokenGroups: Array<TokenGroup>, prefix: string | null = null): string {
+export function colorTokenToCSS(
+  token: ColorToken,
+  mappedTokens: Map<string, Token>,
+  tokenGroups: Array<TokenGroup>,
+  prefix: string | null = null,
+): string {
   // First creating the name of the token, using helper function which turns any token name / path into a valid variable name
-  const name = tokenVariableName(token, tokenGroups, prefix)
+  const name = tokenVariableName(token, tokenGroups, prefix);
 
   // Then creating the value of the token, using another helper function
   const value = CSSHelper.colorTokenValueToCSS(token.value, mappedTokens, {
@@ -26,11 +39,11 @@ export function colorTokenToCSS(token: ColorToken, mappedTokens: Map<string, Tok
     decimals: 3,
     colorFormat: ColorFormat.smartHashHex,
     tokenToVariableRef: (t) => {
-      return `var(--${tokenVariableName(t, tokenGroups)})`
+      return `var(--${tokenVariableName(t, tokenGroups)})`;
     },
-  })
+  });
 
-  return `  --${name}: ${value};`
+  return `  --${name}: ${value};`;
 }
 
 /**
@@ -40,18 +53,23 @@ export function colorTokenToCSS(token: ColorToken, mappedTokens: Map<string, Tok
  * @param tokenGroups
  * @param prefix
  */
-export function dimensioinTokenToCSS(token: DimensionToken, mappedTokens: Map<string, Token>, tokenGroups: Array<TokenGroup>, prefix: string | null = null): string {
-  const name = tokenVariableName(token, tokenGroups, prefix)
+export function dimensioinTokenToCSS(
+  token: DimensionToken,
+  mappedTokens: Map<string, Token>,
+  tokenGroups: Array<TokenGroup>,
+  prefix: string | null = null,
+): string {
+  const name = tokenVariableName(token, tokenGroups, prefix);
   const value = CSSHelper.dimensionTokenValueToCSS(token.value, mappedTokens, {
     allowReferences: false,
     decimals: 3,
     colorFormat: ColorFormat.smartHashHex,
     tokenToVariableRef: (t) => {
-      return `var(--${tokenVariableName(t, tokenGroups)})`
-    }
-  })
+      return `var(--${tokenVariableName(t, tokenGroups)})`;
+    },
+  });
 
-  return `  --${name}: ${value};`
+  return `  --${name}: ${value};`;
 }
 
 /**
@@ -61,9 +79,14 @@ export function dimensioinTokenToCSS(token: DimensionToken, mappedTokens: Map<st
  * @param tokenGroups
  * @param prefix
  */
-export function gradientTokenToCSS(token: GradientToken, mappedTokens: Map<string, Token>, tokenGroups: Array<TokenGroup>, prefix: string | null = null): string {
+export function gradientTokenToCSS(
+  token: GradientToken,
+  mappedTokens: Map<string, Token>,
+  tokenGroups: Array<TokenGroup>,
+  prefix: string | null = null,
+): string {
   // First creating the name of the token, using helper function which turns any token name / path into a valid variable name
-  const name = tokenVariableName(token, tokenGroups, prefix)
+  const name = tokenVariableName(token, tokenGroups, prefix);
 
   // Then creating the value of the token, using another helper function
   const value = CSSHelper.gradientTokenValueToCSS(token.value, mappedTokens, {
@@ -71,11 +94,11 @@ export function gradientTokenToCSS(token: GradientToken, mappedTokens: Map<strin
     decimals: 3,
     colorFormat: ColorFormat.smartHashHex,
     tokenToVariableRef: (t) => {
-      return `var(--${tokenVariableName(t, tokenGroups)})`
+      return `var(--${tokenVariableName(t, tokenGroups)})`;
     },
-  })
+  });
 
-  return `  --${name}: ${value};`
+  return `  --${name}: ${value};`;
 }
 
 /**
@@ -85,9 +108,14 @@ export function gradientTokenToCSS(token: GradientToken, mappedTokens: Map<strin
  * @param tokenGroups
  * @param prefix
  */
-export function shadowTokenToCSS(token: ShadowToken, mappedTokens: Map<string, Token>, tokenGroups: Array<TokenGroup>, prefix: string | null = null): string {
+export function shadowTokenToCSS(
+  token: ShadowToken,
+  mappedTokens: Map<string, Token>,
+  tokenGroups: Array<TokenGroup>,
+  prefix: string | null = null,
+): string {
   // First creating the name of the token, using helper function which turns any token name / path into a valid variable name
-  const name = tokenVariableName(token, tokenGroups, prefix)
+  const name = tokenVariableName(token, tokenGroups, prefix);
 
   // Then creating the value of the token, using another helper function
   const value = CSSHelper.shadowTokenValueToCSS(token.value, mappedTokens, {
@@ -95,11 +123,11 @@ export function shadowTokenToCSS(token: ShadowToken, mappedTokens: Map<string, T
     decimals: 3,
     colorFormat: ColorFormat.hashHex8,
     tokenToVariableRef: (t) => {
-      return `var(--${tokenVariableName(t, tokenGroups)})`
+      return `var(--${tokenVariableName(t, tokenGroups)})`;
     },
-  })
+  });
 
-  return `  --${name}: ${value};`
+  return `  --${name}: ${value};`;
 }
 
 /**
@@ -109,9 +137,14 @@ export function shadowTokenToCSS(token: ShadowToken, mappedTokens: Map<string, T
  * @param tokenGroups
  * @param prefix
  */
-export function blurTokenToCSS(token: BlurToken, mappedTokens: Map<string, Token>, tokenGroups: Array<TokenGroup>, prefix: string | null = null): string {
+export function blurTokenToCSS(
+  token: BlurToken,
+  mappedTokens: Map<string, Token>,
+  tokenGroups: Array<TokenGroup>,
+  prefix: string | null = null,
+): string {
   // First creating the name of the token, using helper function which turns any token name / path into a valid variable name
-  const name = tokenVariableName(token, tokenGroups, prefix)
+  const name = tokenVariableName(token, tokenGroups, prefix);
 
   // Then creating the value of the token, using another helper function
   const value = CSSHelper.blurTokenValueToCSS(token.value, mappedTokens, {
@@ -119,11 +152,11 @@ export function blurTokenToCSS(token: BlurToken, mappedTokens: Map<string, Token
     decimals: 3,
     colorFormat: ColorFormat.hashHex8,
     tokenToVariableRef: (t) => {
-      return `var(--${tokenVariableName(t, tokenGroups)})`
+      return `var(--${tokenVariableName(t, tokenGroups)})`;
     },
-  })
+  });
 
-  return `  --${name}: ${value};`
+  return `  --${name}: ${value};`;
 }
 
 /**
@@ -133,9 +166,14 @@ export function blurTokenToCSS(token: BlurToken, mappedTokens: Map<string, Token
  * @param tokenGroups
  * @param prefix
  */
-export function typographyTokenToCSS(token: TypographyToken, mappedTokens: Map<string, Token>, tokenGroups: Array<TokenGroup>, prefix: string | null = null): string {
+export function typographyTokenToCSS(
+  token: TypographyToken,
+  mappedTokens: Map<string, Token>,
+  tokenGroups: Array<TokenGroup>,
+  prefix: string | null = null,
+): string {
   // First creating the name of the token, using helper function which turns any token name / path into a valid variable name
-  const name = tokenVariableName(token, tokenGroups, prefix)
+  const name = tokenVariableName(token, tokenGroups, prefix);
 
   console.log(JSON.stringify(token.value), JSON.stringify(mappedTokens));
   // Then creating the value of the token, using another helper function
@@ -144,12 +182,31 @@ export function typographyTokenToCSS(token: TypographyToken, mappedTokens: Map<s
     decimals: 3,
     colorFormat: ColorFormat.smartHashHex,
     tokenToVariableRef: (t) => {
-      return `var(--${tokenVariableName(t, tokenGroups)})`
+      return `var(--${tokenVariableName(t, tokenGroups)})`;
     },
-  })
+  });
 
-  return `  --${name}: ${value};`
+  return `  --${name}: ${value};`;
+}
 
+export function typographyFluidToCss(
+  fluidSize: FluidFontMaxMin,
+  screenMax: number,
+  screenMin: number,
+) {
+  const cssVariableName = Object.keys(fluidSize)[0];
+
+  const clampValue = generateCssClapOutput({
+    minScreenWidth: screenMin,
+    maxScreenWidth: screenMax,
+    minFontSize: fluidSize[cssVariableName].min!,
+    maxFontSize: fluidSize[cssVariableName].max!,
+  });
+
+  return `${figmaConfig.fluid.headlineCssVarFormat.replace(
+    "#NAME#",
+    cssVariableName,
+  )}: ${clampValue};`;
 }
 
 /**
@@ -158,7 +215,16 @@ export function typographyTokenToCSS(token: TypographyToken, mappedTokens: Map<s
  * @param tokenGroups
  * @param prefix
  */
-function tokenVariableName(token: Token, tokenGroups: Array<TokenGroup>, prefix: string | null = null): string {
-  const parent = tokenGroups.find((group) => group.id === token.parentGroupId)!
-  return NamingHelper.codeSafeVariableNameForToken(token, StringCase.paramCase, parent, prefix)
+function tokenVariableName(
+  token: Token,
+  tokenGroups: Array<TokenGroup>,
+  prefix: string | null = null,
+): string {
+  const parent = tokenGroups.find((group) => group.id === token.parentGroupId)!;
+  return NamingHelper.codeSafeVariableNameForToken(
+    token,
+    StringCase.paramCase,
+    parent,
+    prefix,
+  );
 }
