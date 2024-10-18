@@ -1,4 +1,8 @@
-import {ElementProperty, ElementPropertyOption, Token} from "@supernovaio/sdk-exporters";
+import {
+  ElementProperty,
+  ElementPropertyOption,
+  Token,
+} from "@supernovaio/sdk-exporters";
 import figmaConfig from "../configs/figma.config";
 
 /**
@@ -6,8 +10,13 @@ import figmaConfig from "../configs/figma.config";
  * @param options
  * @param collectionId
  */
-function getCollectionOption(options: ElementPropertyOption[] | null | undefined, collectionId: string): ElementPropertyOption | null {
-  const option = options ? options.find((option) => option.id === collectionId) : null;
+function getCollectionOption(
+  options: ElementPropertyOption[] | null | undefined,
+  collectionId: string,
+): ElementPropertyOption | null {
+  const option = options
+    ? options.find((option) => option.id === collectionId)
+    : null;
   return option || null;
 }
 
@@ -15,9 +24,12 @@ function getCollectionOption(options: ElementPropertyOption[] | null | undefined
  * Get the collection object from the token properties.
  * @param properties
  */
-function getCollectionObjectFromProperties(properties:
-                                             ElementProperty[]): ElementProperty | undefined {
-  return properties.find((propertyObj) => propertyObj.codeName === 'Collection');
+function getCollectionObjectFromProperties(
+  properties: ElementProperty[],
+): ElementProperty | undefined {
+  return properties.find(
+    (propertyObj) => propertyObj.codeName === "Collection",
+  );
 }
 
 /**
@@ -25,7 +37,10 @@ function getCollectionObjectFromProperties(properties:
  * @param collection - The collection id.
  * @param properties
  */
-function isCollectionSemantic(collection: string | boolean | number, properties: ElementProperty[]): boolean {
+function isCollectionSemantic(
+  collection: string | boolean | number,
+  properties: ElementProperty[],
+): boolean {
   // Get the collection object from the properties
   const collectionObject = getCollectionObjectFromProperties(properties);
 
@@ -34,7 +49,10 @@ function isCollectionSemantic(collection: string | boolean | number, properties:
   }
 
   // Check if the collection id is in the options
-  const collectionOption = getCollectionOption(collectionObject.options, collection.toString());
+  const collectionOption = getCollectionOption(
+    collectionObject.options,
+    collection.toString(),
+  );
 
   if (!collectionOption) {
     return false;
@@ -44,7 +62,10 @@ function isCollectionSemantic(collection: string | boolean | number, properties:
   return figmaConfig.semanticCollectionTypes.includes(collectionOption.name);
 }
 
-function isCollectionComponent(collection: string | boolean | number, properties: ElementProperty[]): boolean {
+function isCollectionComponent(
+  collection: string | boolean | number,
+  properties: ElementProperty[],
+): boolean {
   // Get the collection object from the properties
   const collectionObject = getCollectionObjectFromProperties(properties);
 
@@ -53,7 +74,10 @@ function isCollectionComponent(collection: string | boolean | number, properties
   }
 
   // Check if the collection id is in the options
-  const collectionOption = getCollectionOption(collectionObject.options, collection.toString());
+  const collectionOption = getCollectionOption(
+    collectionObject.options,
+    collection.toString(),
+  );
 
   if (!collectionOption) {
     return false;
@@ -72,11 +96,14 @@ export function isTokenSemantic(token: Token): boolean {
   const hasCollection = Boolean(token.propertyValues.Collection);
 
   if (hasTokenSet) {
-    return token.propertyValues.tokensSet === 'token-set-semantic';
+    return token.propertyValues.tokensSet === "token-set-semantic";
   }
 
   if (hasCollection) {
-    return isCollectionSemantic(token.propertyValues.Collection, token.properties);
+    return isCollectionSemantic(
+      token.propertyValues.Collection,
+      token.properties,
+    );
   }
 
   return false;
@@ -87,25 +114,26 @@ export function isTokenComponent(token: Token): boolean {
   const hasCollection = Boolean(token.propertyValues.Collection);
 
   if (hasTokenSet) {
-    return token.propertyValues.tokensSet === 'token-set-component';
+    return token.propertyValues.tokensSet === "token-set-component";
   }
 
   if (hasCollection) {
-    return isCollectionComponent(token.propertyValues.Collection, token.properties);
+    return isCollectionComponent(
+      token.propertyValues.Collection,
+      token.properties,
+    );
   }
 
   return false;
 }
 
-export function generateCssClapOutput(
-  {
-    minScreenWidth = 450,
-    maxScreenWidth = 1920,
-    minFontSize,
-    maxFontSize,
-    rootFontSize = 16
-  }: GenerateFluidFontSizeArgs
-): string {
+export function generateCssClapOutput({
+  minScreenWidth = 450,
+  maxScreenWidth = 1920,
+  minFontSize,
+  maxFontSize,
+  rootFontSize = 16,
+}: GenerateFluidFontSizeArgs): string {
   const minVWRem = minScreenWidth / rootFontSize;
   const maxVWRem = maxScreenWidth / rootFontSize;
 
@@ -115,5 +143,18 @@ export function generateCssClapOutput(
   const slope = (maxFontRem - minFontRem) / (maxVWRem - minVWRem);
   const intercept = -minVWRem * slope + minFontRem;
 
-  return `clamp(${minFontRem}rem, ${intercept}rem + ${slope * 100}vw, ${maxFontRem}rem)`;
+  return `clamp(${minFontRem}rem, ${intercept}rem + ${
+    slope * 100
+  }vw, ${maxFontRem}rem)`;
+}
+
+export function unitFromSupernovaToCss(unit: string | undefined): string {
+  switch (unit) {
+    case "Pixels":
+      return "px";
+    case "Percent":
+      return "%";
+    default:
+      return "";
+  }
 }

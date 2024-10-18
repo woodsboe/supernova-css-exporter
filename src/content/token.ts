@@ -14,7 +14,7 @@ import {
   TokenGroup,
   TypographyToken,
 } from "@supernovaio/sdk-exporters";
-import { generateCssClapOutput } from "../utils/utils";
+import { generateCssClapOutput, unitFromSupernovaToCss } from "../utils/utils";
 import figmaConfig from "../configs/figma.config";
 import outputConfig from "../configs/output.config";
 
@@ -176,18 +176,15 @@ export function typographyTokenToCSS(
   // First creating the name of the token, using helper function which turns any token name / path into a valid variable name
   const name = tokenVariableName(token, tokenGroups, prefix);
 
-  // Then creating the value of the token, using another helper function
-  /*const value = CSSHelper.typographyTokenValueToCSS(token.value, mappedTokens, {
-    allowReferences: false,
-    decimals: 3,
-    colorFormat: ColorFormat.smartHashHex,
-    tokenToVariableRef: (t) => {
-      return `var(--${tokenVariableName(t, tokenGroups)})`;
-    },
-  });*/
-  const value = "";
-
-  return `--${name}: ${value};`;
+  return `
+  --${name}-size: ${token.value.fontSize.measure}${unitFromSupernovaToCss(
+    token.value.fontSize.unit,
+  )};
+  --${name}-weight: ${token.value.fontWeight.text};
+  --${name}-line-height: ${token.value.lineHeight
+    ?.measure}${unitFromSupernovaToCss(token.value.lineHeight?.unit)};
+  --${name}-letter-spacing: ${token.value.letterSpacing
+    ?.measure}${unitFromSupernovaToCss(token.value.letterSpacing?.unit)};`;
 }
 
 export function typographyFluidToCss(
@@ -207,7 +204,7 @@ export function typographyFluidToCss(
   return `${outputConfig.formatting.headlineCssVarFormat.replace(
     "#NAME#",
     cssVariableName,
-  )}: ${clampValue};`;
+  )}: ${clampValue};\n`;
 }
 
 /**
