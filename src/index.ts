@@ -146,6 +146,10 @@ Pulsar.export(
       )
       .join("\n");
 
+    const typographyHeadlineCss = tokens.filter(
+      (t) => t.tokenType === TokenType.typography && t.name.includes("Heading"),
+    );
+
     // Find the screen max values for fluid typography
     const typographyFluidScreenMax = tokens
       .filter(
@@ -230,9 +234,8 @@ Pulsar.export(
     // Create a JSON object for typography tokens for debugging
     const typographyTokensObject = tokens
       .filter(
-        (t) =>
-          t.tokenType === TokenType.typography &&
-          !t.origin?.name?.includes("Display"),
+        (t) => t.tokenType === TokenType.typography,
+        //&& !t.origin?.name?.includes("Display"),
       )
       .map((token) => JSON.stringify(token))
       .join(",");

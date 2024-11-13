@@ -204,7 +204,7 @@ export function typographyFluidToCss(
   return `${outputConfig.formatting.headlineCssVarFormat.replace(
     "#NAME#",
     cssVariableName,
-  )}: ${clampValue};\n`;
+  )}: ${clampValue};`;
 }
 
 /**
