@@ -1,29 +1,26 @@
-import { FileHelper } from "@supernovaio/export-helpers";
+import {FileHelper} from "@supernovaio/export-helpers";
+
+import {ExporterConfiguration} from "../config";
 import {
-  AnyOutputFile,
-  BlurToken,
-  ColorToken,
-  DimensionToken,
-  GradientToken,
-  PulsarContext,
-  RemoteVersionIdentifier,
-  ShadowToken,
-  Supernova,
-  TokenType,
-  TypographyToken,
-} from "@supernovaio/sdk-exporters";
-import { ExporterConfiguration } from "../config";
+  componentBorderRadiusTokensToCss,
+  componentColorTokensToCss,
+  componentDimensionsTokensToCss,
+  componentFontWeightTokensToCss, componentGenericStringTokensToCss, componentSizeTokensToCss
+} from "./transforms/componentTokens";
+import {AnyOutputFile, PulsarContext, RemoteVersionIdentifier, Supernova} from "@supernovaio/sdk-exporters";
 import {
-  blurTokenToCSS,
-  colorTokenToCSS,
-  dimensioinTokenToCSS,
-  gradientTokenToCSS,
-  shadowTokenToCSS,
-  typographyFluidToCss,
-  typographyTokenToCSS,
-} from "./content/token";
-import { isTokenComponent, isTokenSemantic } from "./utils/utils";
-import figmaConfig from "./configs/figma.config";
+  semanticBlurTokenToCSS,
+  semanticBorderRadiusTokensToCss,
+  semanticColorTokensToCss,
+  semanticDimensionsTokensToCss,
+  semanticGradientTokensToCss,
+  semanticShadowTokensToCss
+} from "./transforms/semanticTokens";
+import {
+  typographyFixedHeadingTokensToCss,
+  typographyFluidHeadingTokensToCss,
+  typographyTokensToCss
+} from "./transforms/typographyTokens";
 
 /**
  * Export entrypoint.
@@ -56,13 +53,11 @@ Pulsar.export(
     }
 
     // Apply theme, if specified by the VSCode extension or pipeline configuration
-    if (context.themeId) {
+    if (context.themeIds && context.themeIds.length > 0) {
       const themes = await sdk.tokens.getTokenThemes(remoteVersionIdentifier);
       const theme = themes.find((theme) => theme.id === context.themeId);
       if (theme) {
-        tokens = await sdk.tokens.computeTokensByApplyingThemes(tokens, [
-          theme,
-        ]);
+        tokens = await sdk.tokens.computeTokensByApplyingThemes(tokens, tokens, themes);
       } else {
         // Don't allow applying theme which doesn't exist in the system
         throw new Error(
@@ -78,194 +73,94 @@ Pulsar.export(
     // Create a map of tokens for easier access
     const mappedTokens = new Map(tokens.map((token) => [token.id, token]));
 
-    // Filter semantic color tokens
-    const semanticColorCss = tokens
-      .filter((t) => t.tokenType === TokenType.color)
-      .filter((t) => isTokenSemantic(t))
-      .map((token) =>
-        colorTokenToCSS(
-          token as ColorToken,
-          mappedTokens,
-          tokenGroups,
-          "color",
-        ),
-      )
-      .join("\n");
+    // Output of semantic color tokens to CSS
+    const semanticColorCss = semanticColorTokensToCss(tokens, mappedTokens, tokenGroups);
 
-    const componentColorCss = tokens
-      .filter((t) => t.tokenType === TokenType.color)
-      .filter((t) => isTokenComponent(t))
-      .map((token) =>
-        colorTokenToCSS(token as ColorToken, mappedTokens, tokenGroups),
-      )
-      .join("\n");
+    // Output of semantic dimension tokens to CSS
+    const semanticDimensionsCss = semanticDimensionsTokensToCss(tokens, mappedTokens, tokenGroups);
 
-    const semanticDimensionsCss = tokens
-      .filter((t) => t.tokenType === TokenType.dimension)
-      .filter((t) => isTokenSemantic(t))
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .map((token) =>
-        dimensioinTokenToCSS(
-          token as DimensionToken,
-          mappedTokens,
-          tokenGroups,
-        ),
-      )
-      .join("\n");
+    // Output of semantic gradient tokens to CSS
+    const semanticGradientCss = semanticGradientTokensToCss(tokens, mappedTokens, tokenGroups);
 
-    const componentDimensionsCss = tokens
-      .filter((t) => t.tokenType === TokenType.dimension)
-      .filter((t) => isTokenComponent(t))
-      .map((token) =>
-        dimensioinTokenToCSS(
-          token as DimensionToken,
-          mappedTokens,
-          tokenGroups,
-        ),
-      )
-      .join("\n");
+    // Output of semantic shadow tokens to CSS
+    const semanticShadowCss = semanticShadowTokensToCss(tokens, mappedTokens, tokenGroups);
 
-    const semanticGradientCss = tokens
-      .filter((t) => t.tokenType === TokenType.gradient)
-      .map((token) =>
-        gradientTokenToCSS(token as GradientToken, mappedTokens, tokenGroups),
-      )
-      .join("\n");
+    // Output of semantic blur tokens to CSS
+    const semanticBlurCss = semanticBlurTokenToCSS(tokens, mappedTokens, tokenGroups);
 
-    const semanticShadowCss = tokens
-      .filter((t) => t.tokenType === TokenType.shadow)
-      .map((token) =>
-        shadowTokenToCSS(token as ShadowToken, mappedTokens, tokenGroups),
-      )
-      .join("\n");
+    const semanticRadiusCss = semanticBorderRadiusTokensToCss(tokens, mappedTokens, tokenGroups);
 
-    const semanticBlurCss = tokens
-      .filter((t) => t.tokenType === TokenType.blur)
-      .map((token) =>
-        blurTokenToCSS(token as BlurToken, mappedTokens, tokenGroups),
-      )
-      .join("\n");
+    // Output of component color tokens to CSS
+    const componentColorCss = componentColorTokensToCss(tokens, mappedTokens, tokenGroups);
 
-    const typographyHeadlineCss = tokens.filter(
-      (t) => t.tokenType === TokenType.typography && t.name.includes("Heading"),
-    );
+    // Output of component dimension tokens to CSS
+    const componentDimensionsCss = componentDimensionsTokensToCss(tokens, mappedTokens, tokenGroups);
 
-    // Find the screen max values for fluid typography
-    const typographyFluidScreenMax = tokens
-      .filter(
-        (t) =>
-          t.tokenType === TokenType.dimension &&
-          t.origin?.name?.includes(
-            figmaConfig.fluid.typographyScreenMaxTokenName,
-          ),
-      )
-      .map((token: DimensionToken) => token.value.measure)?.[0];
+    // Output of component border radius tokens to CSS
+    const componentBorderRadiusCss = componentBorderRadiusTokensToCss(tokens, mappedTokens, tokenGroups);
 
-    // Find the screen min values for fluid typography
-    const typographyFluidScreenMin = tokens
-      .filter(
-        (t) =>
-          t.tokenType === TokenType.dimension &&
-          t.origin?.name?.includes(
-            figmaConfig.fluid.typographyScreenMinTokenName,
-          ),
-      )
-      .map((token: DimensionToken) => token.value.measure)?.[0];
+    // Output of typography fluid heading tokens to CSS
+    const typographyFluidHeadingCss = typographyFluidHeadingTokensToCss(tokens, tokenGroups);
 
-    const typographyFluidSizes: FluidFontMaxMin[] = [];
-    let fluidSize: FluidFontMaxMin = {};
-
-    tokens
-      .filter(
-        (t) =>
-          t.tokenType === TokenType.dimension &&
-          t.origin?.name?.includes(figmaConfig.fluid.headlineIdentifier),
-      )
-      .forEach((token: DimensionToken) => {
-        const parentGroupName = tokenGroups
-          .find((group) => group.id === token.parentGroupId)
-          ?.name?.replaceAll(" ", "-")
-          .toLocaleLowerCase();
-        if (!parentGroupName) {
-          return;
-        }
-
-        if (token.name === "Max Size") {
-          fluidSize[parentGroupName] = { max: token.value.measure };
-        }
-
-        if (token.name === "Min Size") {
-          fluidSize[parentGroupName] = {
-            ...fluidSize[parentGroupName],
-            min: token.value.measure,
-          };
-          typographyFluidSizes.push(fluidSize);
-          fluidSize = {};
-        }
-      });
-
-    const typographyFluidHeadingCss = typographyFluidSizes
-      .map((fluidSize: FluidFontMaxMin) =>
-        typographyFluidToCss(
-          fluidSize,
-          typographyFluidScreenMax,
-          typographyFluidScreenMin,
-        ),
-      )
-      .join("\n");
+    // Output of typography fixed heading tokens to CSS
+    const typographyFixedHeadingCss = typographyFixedHeadingTokensToCss(tokens, tokenGroups);
 
     // Filter typography tokens
-    const typographyCss = tokens
-      .filter(
-        (t) =>
-          t.tokenType === TokenType.typography &&
-          !t.origin?.name?.includes("Display"),
-      )
-      .map((token) =>
-        typographyTokenToCSS(
-          token as TypographyToken,
-          mappedTokens,
-          tokenGroups,
-          "typography",
-        ),
-      )
-      .join("\n");
+    const typographyCss = typographyTokensToCss(tokens, tokenGroups);
+
+
+    /**
+     * Create a JSON object for font weight tokens for debugging
+     */
+    /*const fontWeightObject = tokens.filter((token) => token.tokenType === TokenType.fontWeight)
+      .map((token) => JSON.stringify(token))
+      .join(",");*/
 
     // Create a JSON object for typography tokens for debugging
-    const typographyTokensObject = tokens
+    /*const typographyTokensObject = tokens
       .filter(
         (t) => t.tokenType === TokenType.typography,
         //&& !t.origin?.name?.includes("Display"),
       )
       .map((token) => JSON.stringify(token))
-      .join(",");
+      .join(",");*/
 
-    // Create semantic CSS file content
+    // Create header disclaimer for the various CSS file content
     if (exportConfiguration.generateDisclaimer) {
       // Add disclaimer to every file if enabled
-      const autoGenratedText = `/* This file was generated by Supernova, don't change by hand */\n`;
+      const autoGenratedText = `/* This file was generated by Supernova, don't change by hand */\n/* ${Date()}*/\n`;
       semanticTokensContent += autoGenratedText;
       componentTokensContent += autoGenratedText;
       typographyTokensContent += autoGenratedText;
     }
+
     semanticTokensContent += `:root {
 ${semanticColorCss}
 ${semanticDimensionsCss}
 ${semanticGradientCss}
 ${semanticShadowCss}
 ${semanticBlurCss}
+${semanticRadiusCss}
 }`;
 
-    componentTokensContent += `:root {\n${componentColorCss}\n${componentDimensionsCss}\n}`;
+componentTokensContent += `:root {
+${componentColorCss}
+${componentDimensionsCss}
+${componentBorderRadiusCss}
+${componentFontWeightTokensToCss(tokens, tokenGroups)}
+${componentGenericStringTokensToCss(tokens, tokenGroups)}
+${componentSizeTokensToCss(tokens, tokenGroups)}
+}`;
 
     typographyTokensContent += `:root {
   ${typographyFluidHeadingCss}
+  ${typographyFixedHeadingCss}
 ${typographyCss}
 }`;
 
     // Create debug output files
     const debugOutput = [
-      FileHelper.createTextFile({
+      /*FileHelper.createTextFile({
         relativePath: "./",
         fileName: "typographyTokens.json",
         content: `[${typographyTokensObject}]`,
@@ -275,9 +170,14 @@ ${typographyCss}
         fileName: "tokenGroups.json",
         content: JSON.stringify(tokenGroups),
       }),
+      FileHelper.createTextFile({
+        relativePath: "./",
+        fileName: "tokenFontWeight.json",
+        content: JSON.stringify(fontWeightObject),
+      }),*/
     ];
 
-    // Create output file and return it
+    // Create output files
     const cssOutputFiles = [
       FileHelper.createTextFile({
         relativePath: "./",

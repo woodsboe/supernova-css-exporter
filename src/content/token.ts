@@ -8,8 +8,8 @@ import {
   BlurToken,
   ColorToken,
   DimensionToken,
-  GradientToken,
-  ShadowToken,
+  GradientToken, RadiusToken,
+  ShadowToken, SizeToken, StringToken,
   Token,
   TokenGroup,
   TypographyToken,
@@ -54,8 +54,8 @@ export function colorTokenToCSS(
  * @param tokenGroups
  * @param prefix
  */
-export function dimensioinTokenToCSS(
-  token: DimensionToken,
+export function dimensionTokenToCSS(
+  token: DimensionToken | RadiusToken | SizeToken,
   mappedTokens: Map<string, Token>,
   tokenGroups: Array<TokenGroup>,
   prefix: string | null = null,
@@ -163,13 +163,11 @@ export function blurTokenToCSS(
 /**
  * Convert a typography token to CSS custom property.
  * @param token
- * @param mappedTokens
  * @param tokenGroups
  * @param prefix
  */
 export function typographyTokenToCSS(
   token: TypographyToken,
-  mappedTokens: Map<string, Token>,
   tokenGroups: Array<TokenGroup>,
   prefix: string | null = null,
 ): string {
@@ -184,7 +182,35 @@ export function typographyTokenToCSS(
   --${name}-line-height: ${token.value.lineHeight
     ?.measure}${unitFromSupernovaToCss(token.value.lineHeight?.unit)};
   --${name}-letter-spacing: ${token.value.letterSpacing
-    ?.measure}${unitFromSupernovaToCss(token.value.letterSpacing?.unit)};`;
+    ?.measure}${unitFromSupernovaToCss('Percent')};`;
+}
+
+/**
+ * Convert a heading typography token to CSS custom property.
+ * @param token
+ * @param tokenGroups
+ * @param prefix
+ */
+export function typographyFixedHeadingTokenToCSS(
+  token: TypographyToken,
+  tokenGroups: Array<TokenGroup>,
+  prefix: string | null = null,
+): string {
+  // First creating the name of the token, using helper function which turns any token name / path into a valid variable name
+  let name = tokenVariableName(token, tokenGroups, prefix);
+
+  // TODO: The hardcoded part should be replaced with a more dynamic solution
+  name = name.replace("display-md-d", "");
+
+  return `
+  --${name}-size: ${token.value.fontSize.measure}${unitFromSupernovaToCss(
+    token.value.fontSize.unit,
+  )};
+  --${name}-weight: ${token.value.fontWeight.text};
+  --${name}-line-height: ${token.value.lineHeight
+    ?.measure}${unitFromSupernovaToCss(token.value.lineHeight?.unit)};
+  --${name}-letter-spacing: ${token.value.letterSpacing
+    ?.measure}${unitFromSupernovaToCss('Percent')};`;
 }
 
 export function typographyFluidToCss(
@@ -225,4 +251,15 @@ function tokenVariableName(
     parent,
     prefix,
   );
+}
+
+export function stringTokenToCSS(
+  token: StringToken,
+  tokenGroups: Array<TokenGroup>,
+  prefix: string | null = null,
+): string {
+  const name = tokenVariableName(token, tokenGroups, prefix);
+  const value = token.value.text;
+
+  return `  --${name}: ${value};`;
 }

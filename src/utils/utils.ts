@@ -87,6 +87,31 @@ function isCollectionComponent(
   return figmaConfig.componentCollectionTypes.includes(collectionOption.name);
 }
 
+function isCollectionTypography(
+  collection: string | boolean | number,
+  properties: ElementProperty[],
+): boolean {
+  // Get the collection object from the properties
+  const collectionObject = getCollectionObjectFromProperties(properties);
+
+  if (!collectionObject) {
+    return false;
+  }
+
+  // Check if the collection id is in the options
+  const collectionOption = getCollectionOption(
+    collectionObject.options,
+    collection.toString(),
+  );
+
+  if (!collectionOption) {
+    return false;
+  }
+
+  // Check if the collection name matches one of the component collection types from figma.
+  return figmaConfig.componentCollectionTypes.includes(collectionOption.name);
+}
+
 /**
  * Check if the token is semantic.
  * @param token
@@ -119,6 +144,24 @@ export function isTokenComponent(token: Token): boolean {
 
   if (hasCollection) {
     return isCollectionComponent(
+      token.propertyValues.Collection,
+      token.properties,
+    );
+  }
+
+  return false;
+}
+
+/**
+ * Check if the token is semantic.
+ * @param token
+ */
+export function isTokenTypography(token: Token): boolean {
+  const hasTokenSet = Boolean(token.propertyValues.tokensSet);
+  const hasCollection = Boolean(token.propertyValues.Collection);
+
+  if (hasCollection) {
+    return isCollectionSemantic(
       token.propertyValues.Collection,
       token.properties,
     );
